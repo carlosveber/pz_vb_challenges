@@ -17,6 +17,7 @@
 --                                      doughs, sushi, pickling)
 --   carvecraft ISHandcraftAction        a recipe that awards Carving XP (wood and bone)
 --   woodcraft  ISHandcraftAction        a recipe that awards Woodwork XP (sawing planks...)
+--   smithcraft ISHandcraftAction        a recipe that awards Blacksmith XP (forge and anvil)
 --   read     ISReadABook                finishing a skill book; each book counts once
 --   plant    ISSeedActionNew            sowing seeds
 --   harvest  ISHarvestPlantAction       harvesting a crop
@@ -89,7 +90,7 @@ A.TYPES = {
     tailorcraft = true, patch = true, reinforce = true, laundry = true,
     potterycraft = true, masonrycraft = true, masonrybuild = true, knapcraft = true,
     glasscraft = true, elecraft = true, generator = true, fixgenerator = true,
-    dish = true, cookcraft = true, carvecraft = true, woodcraft = true,
+    dish = true, cookcraft = true, carvecraft = true, woodcraft = true, smithcraft = true,
     woodbuild = true, woodbarricade = true,
     milk = true, shear = true, butcher = true,
 }
@@ -164,6 +165,16 @@ VB_Challenges.RecipeGroups = {
     sushi     = { "Sushi", "Maki", "Onigiri" },
     pickle    = { "MakeJar" },                            -- cooking: pickling vegetables in jars
     sawlogs   = { "SawLogs" },                            -- carpentry: logs into planks
+    -- blacksmithing (names like Forge_Frying_Pan, Forge_Wood_Axe_Head, Forge_Machete_Blade)
+    smithnails = { "Forge_Nails" },
+    cookware   = { "Pan", "Saucepan", "Cooking_Pot", "Kettle", "Spoons", "Forks", "Butter_Knives",
+                   "Cup", "Goblet", "Baking_Tray" },
+    toolhead   = { "Hammer_Head", "hammer_Head", "Axe_Head", "Hoe_Head", "fork_head", "Scythe_Head",
+                   "Spade_Head" },                        -- not the mace head (a weapon)
+    smithblade = { "Knife_Blade", "Machete_Blade", "Sword_Blade", "SwordBlade", "Cleaver_Blade",
+                   "SpearHead" },                         -- not the level-0 crude blades
+    armor      = { "Helmet", "Body_Armor", "CoatOfPlates", "Gorget", "Armored_Gloves", "Metal_Mask",
+                   "Codpiece", "Shin", "Thigh", "Forearm", "Shoulder_Armor" },
     spear     = { "CarveSpear", "FireHardenSpear" },      -- carving: wooden spears
     bonetool  = { "MakeBone", "MakeDullBone", "Sharpen" },-- carving: bone needle, hook, awl, knife...
     handle    = { "Handle" },                             -- carving: small / medium / long handles
@@ -405,6 +416,7 @@ local SKILL_CRAFTS = {
     { perk = "Cooking", qtype = "cookcraft" },
     { perk = "Carving", qtype = "carvecraft" },
     { perk = "Woodwork", qtype = "woodcraft" },
+    { perk = "Blacksmith", qtype = "smithcraft" },
     { perk = "Tailoring", qtype = "tailorcraft" },
 }
 

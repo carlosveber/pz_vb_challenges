@@ -30,6 +30,7 @@
 --   dish          dishes of a kind (dishGroup) with at least minIngredients ingredients
 --   cookcraft     cooking recipes crafted (use with a recipeGroup: dough, sushi, pickle)
 --   carvecraft    carving recipes crafted (can take a recipeGroup)
+--   smithcraft    blacksmithing recipes crafted (can take a recipeGroup)
 --   woodcraft / woodbuild / woodbarricade
 --                 carpentry recipes crafted / wooden structures built (can take a buildGroup) /
 --                 plank barricades
@@ -69,6 +70,11 @@ local GROWING_SEASON = { 3, 4, 5, 6, 7, 8, 9, 10, 11 }
 
 -- Same rule as the vanilla vehicle menu for offering "Hotwire".
 -- Using generators needs the "Generator" recipe (magazine, or automatic at Electricity 3).
+-- Metal armor recipes also need Tailoring (2 for the simplest pieces).
+local function canSewArmor(player)
+    return player:getPerkLevel(Perks.Tailoring) >= 2
+end
+
 local function knowsGenerators(player)
     local ok, known = pcall(function() return player:isRecipeActuallyKnown("Generator") end)
     return ok and known == true
@@ -117,7 +123,7 @@ VB_Challenges.Templates = {
         { id = "e_firststeps", type = "skill", goalLevel = 1, maxStartLevel = 0,
           perks = VB_Challenges.TrainableSkills },
         { id = "e_skill",      type = "skill", min = 1, max = 1, maxStartLevel = 4,
-          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Maintenance", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking", "Carving" } },
+          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Maintenance", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking", "Carving", "Blacksmith" } },
         { id = "e_scout",      weight = 3, type = "visit", minDist = 200, maxDist = 700,
           places = { "grocery", "gas", "pharmacy", "church", "library", "motel", "bar", "tools", "mechanic" } },
         { id = "e_craft",      type = "craft", min = 3, max = 5 },
@@ -144,6 +150,9 @@ VB_Challenges.Templates = {
         { id = "e_sawlogs",    type = "woodcraft", recipeGroup = "sawlogs", min = 3, max = 3 },
         { id = "e_boardup",    type = "woodbarricade", min = 2, max = 2 },
         { id = "e_rustic",     type = "woodbuild", buildGroup = "rustic", min = 3, max = 3 },
+        { id = "e_forge",      type = "smithcraft", min = 2, max = 2 },
+        { id = "e_forgenails", type = "smithcraft", recipeGroup = "smithnails", min = 1, max = 1, -- text assumes 1
+          requiresPerk = "Blacksmith", requiresLevel = 1 },
         { id = "e_flashlight", type = "elecraft", recipeGroup = "light", min = 1, max = 1, -- text assumes 1
           requiresPerk = "Electricity", requiresLevel = 1 },
         { id = "e_forage",     type = "forage", min = 5, max = 8 },
@@ -172,7 +181,7 @@ VB_Challenges.Templates = {
         { id = "m_saw",        type = "deliver", item = "Base.Saw",             min = 1,  max = 1 },
         { id = "m_chili",      type = "deliver", item = "Base.CannedChili",     min = 3,  max = 4 },
         { id = "m_skill",      type = "skill", min = 2, max = 2, maxStartLevel = 3,
-          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Mechanics", "Electricity", "MetalWelding", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking", "Carving" } },
+          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Mechanics", "Electricity", "MetalWelding", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking", "Carving", "Blacksmith" } },
         { id = "m_expedition", weight = 2, type = "visit", minDist = 700, maxDist = 1500,
           places = { "police", "fire", "medical", "school", "gunstore", "sports", "warehouse", "camping" } },
         { id = "m_supplyrun",  weight = 2, type = "roundtrip", minDist = 400, maxDist = 1000,
@@ -220,6 +229,12 @@ VB_Challenges.Templates = {
           requiresPerk = "Woodwork", requiresLevel = 1 },
         { id = "m_rainwater",  type = "woodbuild", buildGroup = "raincollector", min = 1, max = 1, -- text assumes 1
           requiresPerk = "Woodwork", requiresLevel = 3 },
+        { id = "m_cookware",   type = "smithcraft", recipeGroup = "cookware", min = 3, max = 3,
+          requiresPerk = "Blacksmith", requiresLevel = 2 },
+        { id = "m_toolheads",  type = "smithcraft", recipeGroup = "toolhead", min = 3, max = 3,
+          requiresPerk = "Blacksmith", requiresLevel = 4 },
+        { id = "m_forgework",  type = "smithcraft", min = 6, max = 6,
+          requiresPerk = "Blacksmith", requiresLevel = 1 },
         { id = "m_forage",     type = "forage", min = 15, max = 25 },
         { id = "m_herbalist",  type = "forage", forageGroup = "medicinal", min = 3, max = 5, months = GROWING_SEASON },
         { id = "m_supplies",   type = "forage", forageGroup = "materials", min = 6, max = 10 },
@@ -255,7 +270,7 @@ VB_Challenges.Templates = {
         { id = "h_grandmaster", type = "skill", goalLevel = 10, minStartLevel = 8, pointsMult = 1.5,
           perks = VB_Challenges.TrainableSkills },
         { id = "h_skill",      type = "skill", min = 2, max = 2, maxStartLevel = 6,
-          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Mechanics", "Electricity", "MetalWelding", "Aiming", "Axe", "Blunt", "SmallBlade", "LongBlade", "Spear", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking", "Carving" } },
+          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Mechanics", "Electricity", "MetalWelding", "Aiming", "Axe", "Blunt", "SmallBlade", "LongBlade", "Spear", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking", "Carving", "Blacksmith" } },
         { id = "h_overnight",  weight = 2, type = "overnight", minDist = 300, maxDist = 1500, nightHours = 4,
           places = { "police", "medical", "fire", "school", "prison", "army", "gunstore", "warehouse" } },
         { id = "h_longroad",   weight = 2, type = "visit", minDist = 1500, maxDist = 3500,
@@ -305,6 +320,12 @@ VB_Challenges.Templates = {
           requiresPerk = "Woodwork", requiresLevel = 2 },
         { id = "h_stairs",     type = "woodbuild", buildGroup = "stairs", min = 1, max = 1,     -- text assumes 1
           requiresPerk = "Woodwork", requiresLevel = 3 },
+        { id = "h_blades",     type = "smithcraft", recipeGroup = "smithblade", min = 2, max = 2,
+          requiresPerk = "Blacksmith", requiresLevel = 4 },
+        { id = "h_armor",      type = "smithcraft", recipeGroup = "armor", min = 1, max = 1,   -- text assumes 1
+          requiresPerk = "Blacksmith", requiresLevel = 4, canOffer = canSewArmor },
+        { id = "h_smith",      type = "smithcraft", min = 15, max = 15,
+          requiresPerk = "Blacksmith", requiresLevel = 2 },
         { id = "h_cook",       type = "cook", min = 3,  max = 4, foodGroup = "fish" },
         { id = "h_read",       type = "read", min = 4,  max = 6 },
         { id = "h_harvest",    type = "harvest", min = 10, max = 15 },

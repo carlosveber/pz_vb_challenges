@@ -76,6 +76,7 @@ local TYPE_ICON = {
     woodcraft = "Base.Saw",
     woodbuild = "Base.Plank",
     woodbarricade = "Base.Hammer",
+    smithcraft = "Base.SmithingHammer",
 }
 
 local texCache = {}

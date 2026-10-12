@@ -16,6 +16,10 @@ for server owners and modders.
   walls, stick and log fences), furniture (Carpentry 1+), *Handyman* (6 wooden structures,
   Carpentry 1+), a rain collector (Carpentry 3+), 12 wooden walls (Carpentry 2+) and a
   staircase (Carpentry 3+).
+- **Blacksmithing:** forge items, forge nails (Blacksmithing 1+), cookware (2+), tool heads
+  (4+), *Forge Work* (6 items, 1+), blades (4+), metal armor (4+ and Tailoring 2+) and
+  *Master Smith* (15 items, 2+).
+- Blacksmithing now appears in the "gain levels" skill challenges.
 
 ## [0.7.0] - 2026-10-11
 
