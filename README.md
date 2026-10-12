@@ -1,5 +1,7 @@
 # Challenges (Project Zomboid Build 42)
 
+![Challenges Poster](https://github.com/carlosveber/pz_vb_challenges/blob/main/42/poster.png?raw=true)
+
 Take Easy, Medium and Hard challenges, earn score, level up and choose rewards.
 Challenges cover combat, survival, deliveries, trips to real buildings, and most
 Build 42 activities: animals, trapping, tracking, foraging, fishing, mechanics, welding,
