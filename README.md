@@ -24,3 +24,8 @@ then enable **Challenges** in the mod list. Mod id: `VB_Challenges`.
 ## Changes
 
 See [CHANGELOG.md](CHANGELOG.md) for what changed in each version.
+
+## License
+
+[MIT](LICENSE) © 2026 Carlos Veber. Project Zomboid and its logo and artwork belong to
+The Indie Stone; they are not covered by this license.
