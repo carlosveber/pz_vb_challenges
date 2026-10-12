@@ -29,6 +29,7 @@
 --                 knapping / glassmaking / electrical recipes crafted
 --   dish          dishes of a kind (dishGroup) with at least minIngredients ingredients
 --   cookcraft     cooking recipes crafted (use with a recipeGroup: dough, sushi, pickle)
+--   carvecraft    carving recipes crafted (can take a recipeGroup)
 --   generator / fixgenerator
 --                 generators connected and started / repaired
 --   masonrycraft / masonrybuild
@@ -113,7 +114,7 @@ VB_Challenges.Templates = {
         { id = "e_firststeps", type = "skill", goalLevel = 1, maxStartLevel = 0,
           perks = VB_Challenges.TrainableSkills },
         { id = "e_skill",      type = "skill", min = 1, max = 1, maxStartLevel = 4,
-          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Maintenance", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking" } },
+          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Maintenance", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking", "Carving" } },
         { id = "e_scout",      weight = 3, type = "visit", minDist = 200, maxDist = 700,
           places = { "grocery", "gas", "pharmacy", "church", "library", "motel", "bar", "tools", "mechanic" } },
         { id = "e_craft",      type = "craft", min = 3, max = 5 },
@@ -135,6 +136,8 @@ VB_Challenges.Templates = {
         { id = "e_salvage",    type = "elecraft", recipeGroup = "dismantle", min = 3, max = 3 },
         { id = "e_sandwich",   type = "dish", dishGroup = "handheld", min = 1, max = 1 },      -- text assumes 1
         { id = "e_pickle",     type = "cookcraft", recipeGroup = "pickle", min = 1, max = 1 },
+        { id = "e_whittle",    type = "carvecraft", min = 3, max = 3 },
+        { id = "e_spear",      type = "carvecraft", recipeGroup = "spear", min = 1, max = 1 },   -- text assumes 1
         { id = "e_flashlight", type = "elecraft", recipeGroup = "light", min = 1, max = 1, -- text assumes 1
           requiresPerk = "Electricity", requiresLevel = 1 },
         { id = "e_forage",     type = "forage", min = 5, max = 8 },
@@ -163,7 +166,7 @@ VB_Challenges.Templates = {
         { id = "m_saw",        type = "deliver", item = "Base.Saw",             min = 1,  max = 1 },
         { id = "m_chili",      type = "deliver", item = "Base.CannedChili",     min = 3,  max = 4 },
         { id = "m_skill",      type = "skill", min = 2, max = 2, maxStartLevel = 3,
-          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Mechanics", "Electricity", "MetalWelding", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking" } },
+          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Mechanics", "Electricity", "MetalWelding", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking", "Carving" } },
         { id = "m_expedition", weight = 2, type = "visit", minDist = 700, maxDist = 1500,
           places = { "police", "fire", "medical", "school", "gunstore", "sports", "warehouse", "camping" } },
         { id = "m_supplyrun",  weight = 2, type = "roundtrip", minDist = 400, maxDist = 1000,
@@ -201,6 +204,10 @@ VB_Challenges.Templates = {
           requiresPerk = "Electricity", requiresLevel = 2 },
         { id = "m_stew",       type = "dish", dishGroup = "pot", minIngredients = 3, min = 1, max = 1 }, -- text assumes 1
         { id = "m_dough",      type = "cookcraft", recipeGroup = "dough", min = 3, max = 3 },
+        { id = "m_bonetools",  type = "carvecraft", recipeGroup = "bonetool", min = 3, max = 3 },
+        { id = "m_handles",    type = "carvecraft", recipeGroup = "handle", min = 4, max = 4,
+          requiresPerk = "Carving", requiresLevel = 1 },
+        { id = "m_utensils",   type = "carvecraft", recipeGroup = "utensil", min = 3, max = 3 },
         { id = "m_forage",     type = "forage", min = 15, max = 25 },
         { id = "m_herbalist",  type = "forage", forageGroup = "medicinal", min = 3, max = 5, months = GROWING_SEASON },
         { id = "m_supplies",   type = "forage", forageGroup = "materials", min = 6, max = 10 },
@@ -236,7 +243,7 @@ VB_Challenges.Templates = {
         { id = "h_grandmaster", type = "skill", goalLevel = 10, minStartLevel = 8, pointsMult = 1.5,
           perks = VB_Challenges.TrainableSkills },
         { id = "h_skill",      type = "skill", min = 2, max = 2, maxStartLevel = 6,
-          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Mechanics", "Electricity", "MetalWelding", "Aiming", "Axe", "Blunt", "SmallBlade", "LongBlade", "Spear", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking" } },
+          perks = { "Cooking", "Woodwork", "Fishing", "Farming", "PlantScavenging", "Trapping", "Tailoring", "Doctor", "Mechanics", "Electricity", "MetalWelding", "Aiming", "Axe", "Blunt", "SmallBlade", "LongBlade", "Spear", "Tracking", "Pottery", "Masonry", "FlintKnapping", "Glassmaking", "Carving" } },
         { id = "h_overnight",  weight = 2, type = "overnight", minDist = 300, maxDist = 1500, nightHours = 4,
           places = { "police", "medical", "fire", "school", "prison", "army", "gunstore", "warehouse" } },
         { id = "h_longroad",   weight = 2, type = "visit", minDist = 1500, maxDist = 3500,
@@ -278,6 +285,10 @@ VB_Challenges.Templates = {
         { id = "h_pie",        type = "dish", dishGroup = "baked", min = 1, max = 1 },         -- text assumes 1
         { id = "h_sushi",      type = "cookcraft", recipeGroup = "sushi", min = 3, max = 3 },
         { id = "h_preserve",   type = "cookcraft", recipeGroup = "pickle", min = 4, max = 4 },
+        { id = "h_carve",      type = "carvecraft", min = 15, max = 15,
+          requiresPerk = "Carving", requiresLevel = 1 },
+        { id = "h_bat",        type = "carvecraft", recipeGroup = "bat", min = 1, max = 1,     -- text assumes 1
+          requiresPerk = "Carving", requiresLevel = 7 },
         { id = "h_cook",       type = "cook", min = 3,  max = 4, foodGroup = "fish" },
         { id = "h_read",       type = "read", min = 4,  max = 6 },
         { id = "h_harvest",    type = "harvest", min = 10, max = 15 },

@@ -72,6 +72,7 @@ local TYPE_ICON = {
     fixgenerator = "Base.ElectronicsScrap",
     dish = "Base.Pot",
     cookcraft = "Base.BreadDough",
+    carvecraft = "Base.WoodenSpoon",
 }
 
 local texCache = {}

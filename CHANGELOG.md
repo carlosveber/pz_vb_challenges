@@ -4,6 +4,15 @@ All notable changes to **Challenges** (Project Zomboid Build 42 mod, id `VB_Chal
 Newest version first. Each version lists what players will notice, then technical notes
 for server owners and modders.
 
+## [Unreleased]
+
+### Added
+
+- **Carving:** whittle items, carve a wooden spear, make bone tools, carve tool handles
+  (Carving 1+), carve wooden utensils, *Master Carver* (15 items, Carving 1+) and
+  *Batter Up* (carve a baseball bat or short bat, Carving 7+).
+- Carving now appears in the "gain levels" skill challenges.
+
 ## [0.7.0] - 2026-10-11
 
 > **Breaking:** the mod id changed from `challenges` to `VB_Challenges`. Re-enable the mod

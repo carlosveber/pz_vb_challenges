@@ -15,6 +15,7 @@
 --            base item, e.g. a pot of water becomes a stew, so only then is the meal final.)
 --   cookcraft ISHandcraftAction         a recipe that awards Cooking XP (with q.recipeGroup:
 --                                      doughs, sushi, pickling)
+--   carvecraft ISHandcraftAction        a recipe that awards Carving XP (wood and bone)
 --   read     ISReadABook                finishing a skill book; each book counts once
 --   plant    ISSeedActionNew            sowing seeds
 --   harvest  ISHarvestPlantAction       harvesting a crop
@@ -83,7 +84,7 @@ A.TYPES = {
     tailorcraft = true, patch = true, reinforce = true, laundry = true,
     potterycraft = true, masonrycraft = true, masonrybuild = true, knapcraft = true,
     glasscraft = true, elecraft = true, generator = true, fixgenerator = true,
-    dish = true, cookcraft = true,
+    dish = true, cookcraft = true, carvecraft = true,
     milk = true, shear = true, butcher = true,
 }
 
@@ -150,6 +151,11 @@ VB_Challenges.RecipeGroups = {
     dough     = { "Dough", "Batter", "Biscuits", "Pancake", "Muffins" }, -- cooking: baking prep
     sushi     = { "Sushi", "Maki", "Onigiri" },
     pickle    = { "MakeJar" },                            -- cooking: pickling vegetables in jars
+    spear     = { "CarveSpear", "FireHardenSpear" },      -- carving: wooden spears
+    bonetool  = { "MakeBone", "MakeDullBone", "Sharpen" },-- carving: bone needle, hook, awl, knife...
+    handle    = { "Handle" },                             -- carving: small / medium / long handles
+    utensil   = { "Spoon", "Fork", "Goblets", "CuttingBoards" },
+    bat       = { "CarveBat", "CarveShortBat" },          -- carving: baseball bat, short bat
 }
 
 -- Dish groups for meal quests (q.dishGroup): lowercase parts of the evolved recipe name
@@ -384,6 +390,7 @@ local SKILL_CRAFTS = {
     { perk = "Glassmaking", qtype = "glasscraft" },
     { perk = "Electricity", qtype = "elecraft" },
     { perk = "Cooking", qtype = "cookcraft" },
+    { perk = "Carving", qtype = "carvecraft" },
     { perk = "Tailoring", qtype = "tailorcraft" },
 }
 
