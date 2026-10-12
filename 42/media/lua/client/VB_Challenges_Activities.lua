@@ -16,6 +16,7 @@
 --   cookcraft ISHandcraftAction         a recipe that awards Cooking XP (with q.recipeGroup:
 --                                      doughs, sushi, pickling)
 --   carvecraft ISHandcraftAction        a recipe that awards Carving XP (wood and bone)
+--   woodcraft  ISHandcraftAction        a recipe that awards Woodwork XP (sawing planks...)
 --   read     ISReadABook                finishing a skill book; each book counts once
 --   plant    ISSeedActionNew            sowing seeds
 --   harvest  ISHarvestPlantAction       harvesting a crop
@@ -59,6 +60,10 @@
 --                                         walls, frames, fences, gates, doors, floors); counts
 --                                         when a new object appears, once per tile
 --   metalbarricade ISBarricadeAction      a metal sheet / metal bar barricade, once per window
+--   woodbarricade  ISBarricadeAction      a plank barricade, once per window
+--   woodbuild      ISBuildIsoEntity       building a Woodwork recipe from the build menu (walls,
+--                                         floors, furniture, fences, stairs, rain collectors...);
+--                                         q.buildGroup can require entity names; once per tile
 -- Tailoring:
 --   potterycraft   ISHandcraftAction      shaping clay: a recipe that awards Pottery XP
 --                                         (by hand, pottery wheel or hand press)
@@ -84,7 +89,8 @@ A.TYPES = {
     tailorcraft = true, patch = true, reinforce = true, laundry = true,
     potterycraft = true, masonrycraft = true, masonrybuild = true, knapcraft = true,
     glasscraft = true, elecraft = true, generator = true, fixgenerator = true,
-    dish = true, cookcraft = true, carvecraft = true,
+    dish = true, cookcraft = true, carvecraft = true, woodcraft = true,
+    woodbuild = true, woodbarricade = true,
     milk = true, shear = true, butcher = true,
 }
 
@@ -135,6 +141,12 @@ VB_Challenges.BuildGroups = {
     cookingpit = { "cooking_pit" },
     wall       = { "wall" },
     millquern  = { "mill", "quern" },
+    -- carpentry
+    rustic        = { "logwall", "stickfence", "logfence" },
+    furniture     = { "chair", "table", "stool", "bookcase", "shelves", "crate", "_bed" }, -- "_bed": not barbedwire
+    woodwall      = { "woodenwalllvl" },                 -- wooden walls, not wall frames
+    raincollector = { "raincollector" },
+    stairs        = { "stairs" },
 }
 
 -- Recipe groups (q.recipeGroup): words in the craft recipe name.
@@ -151,6 +163,7 @@ VB_Challenges.RecipeGroups = {
     dough     = { "Dough", "Batter", "Biscuits", "Pancake", "Muffins" }, -- cooking: baking prep
     sushi     = { "Sushi", "Maki", "Onigiri" },
     pickle    = { "MakeJar" },                            -- cooking: pickling vegetables in jars
+    sawlogs   = { "SawLogs" },                            -- carpentry: logs into planks
     spear     = { "CarveSpear", "FireHardenSpear" },      -- carving: wooden spears
     bonetool  = { "MakeBone", "MakeDullBone", "Sharpen" },-- carving: bone needle, hook, awl, knife...
     handle    = { "Handle" },                             -- carving: small / medium / long handles
@@ -391,6 +404,7 @@ local SKILL_CRAFTS = {
     { perk = "Electricity", qtype = "elecraft" },
     { perk = "Cooking", qtype = "cookcraft" },
     { perk = "Carving", qtype = "carvecraft" },
+    { perk = "Woodwork", qtype = "woodcraft" },
     { perk = "Tailoring", qtype = "tailorcraft" },
 }
 
@@ -488,11 +502,12 @@ end
 -- Metal barricades: once per window/door, so taking one down and putting it back
 -- doesn't count twice.
 local function onBarricade(self, result)
-    if result ~= true or not (self.isMetal or self.isMetalBar) then return end
+    if result ~= true then return end
     local key = squareKey(self.item and self.item:getSquare())
     local ok, north = pcall(function() return self.item:getNorth() end)
     if key and ok then key = key .. (north and "N" or "W") end
-    A.record(self.character, "metalbarricade", function(q) return firstTime(q, key) end)
+    local qtype = (self.isMetal or self.isMetalBar) and "metalbarricade" or "woodbarricade"
+    A.record(self.character, qtype, function(q) return firstTime(q, key) end)
 end
 
 -- Lowercase name of what a build-menu entity builds, e.g. "stonewall".
@@ -528,12 +543,12 @@ local function installBuildHook()
             if recipeAwards(self.craftRecipe, "MetalWelding") then
                 A.record(self.character, "metalbuild", function(q) return firstTime(q, key) end)
             end
-            if recipeAwards(self.craftRecipe, "Masonry") then
-                local name = buildName(self)
-                A.record(self.character, "masonrybuild", function(q)
-                    return (q.buildGroup == nil or nameInGroup(name, q.buildGroup)) and firstTime(q, key)
-                end)
+            local name = buildName(self)
+            local function accept(q)
+                return (q.buildGroup == nil or nameInGroup(name, q.buildGroup)) and firstTime(q, key)
             end
+            if recipeAwards(self.craftRecipe, "Masonry") then A.record(self.character, "masonrybuild", accept) end
+            if recipeAwards(self.craftRecipe, "Woodwork") then A.record(self.character, "woodbuild", accept) end
         end)
         if not ok then VB_Challenges.log("activity hook ISBuildIsoEntity:create failed: " .. tostring(err)) end
         return result
@@ -744,8 +759,8 @@ function A.describe(q)
         return VB_Challenges.T("Desc_dish_" .. tostring(q.dishGroup), q.target, q.minIngredients or 1)
     elseif q.recipeGroup then
         return VB_Challenges.T("Desc_" .. q.type .. "_" .. q.recipeGroup, q.target)
-    elseif q.type == "masonrybuild" and q.buildGroup then
-        return VB_Challenges.T("Desc_masonrybuild_" .. q.buildGroup, q.target)
+    elseif q.buildGroup then
+        return VB_Challenges.T("Desc_" .. q.type .. "_" .. q.buildGroup, q.target)
     elseif q.type == "forage" and q.forageGroup then
         return VB_Challenges.T("Desc_forage_" .. q.forageGroup, q.target)
     elseif q.type == "track" and q.trackAnimal then

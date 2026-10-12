@@ -12,6 +12,10 @@ for server owners and modders.
   (Carving 1+), carve wooden utensils, *Master Carver* (15 items, Carving 1+) and
   *Batter Up* (carve a baseball bat or short bat, Carving 7+).
 - Carving now appears in the "gain levels" skill challenges.
+- **Carpentry:** saw logs into planks, board up windows with planks, rustic builds (log
+  walls, stick and log fences), furniture (Carpentry 1+), *Handyman* (6 wooden structures,
+  Carpentry 1+), a rain collector (Carpentry 3+), 12 wooden walls (Carpentry 2+) and a
+  staircase (Carpentry 3+).
 
 ## [0.7.0] - 2026-10-11
 

@@ -73,6 +73,9 @@ local TYPE_ICON = {
     dish = "Base.Pot",
     cookcraft = "Base.BreadDough",
     carvecraft = "Base.WoodenSpoon",
+    woodcraft = "Base.Saw",
+    woodbuild = "Base.Plank",
+    woodbarricade = "Base.Hammer",
 }
 
 local texCache = {}

@@ -30,6 +30,9 @@
 --   dish          dishes of a kind (dishGroup) with at least minIngredients ingredients
 --   cookcraft     cooking recipes crafted (use with a recipeGroup: dough, sushi, pickle)
 --   carvecraft    carving recipes crafted (can take a recipeGroup)
+--   woodcraft / woodbuild / woodbarricade
+--                 carpentry recipes crafted / wooden structures built (can take a buildGroup) /
+--                 plank barricades
 --   generator / fixgenerator
 --                 generators connected and started / repaired
 --   masonrycraft / masonrybuild
@@ -138,6 +141,9 @@ VB_Challenges.Templates = {
         { id = "e_pickle",     type = "cookcraft", recipeGroup = "pickle", min = 1, max = 1 },
         { id = "e_whittle",    type = "carvecraft", min = 3, max = 3 },
         { id = "e_spear",      type = "carvecraft", recipeGroup = "spear", min = 1, max = 1 },   -- text assumes 1
+        { id = "e_sawlogs",    type = "woodcraft", recipeGroup = "sawlogs", min = 3, max = 3 },
+        { id = "e_boardup",    type = "woodbarricade", min = 2, max = 2 },
+        { id = "e_rustic",     type = "woodbuild", buildGroup = "rustic", min = 3, max = 3 },
         { id = "e_flashlight", type = "elecraft", recipeGroup = "light", min = 1, max = 1, -- text assumes 1
           requiresPerk = "Electricity", requiresLevel = 1 },
         { id = "e_forage",     type = "forage", min = 5, max = 8 },
@@ -208,6 +214,12 @@ VB_Challenges.Templates = {
         { id = "m_handles",    type = "carvecraft", recipeGroup = "handle", min = 4, max = 4,
           requiresPerk = "Carving", requiresLevel = 1 },
         { id = "m_utensils",   type = "carvecraft", recipeGroup = "utensil", min = 3, max = 3 },
+        { id = "m_furniture",  type = "woodbuild", buildGroup = "furniture", min = 2, max = 2,
+          requiresPerk = "Woodwork", requiresLevel = 1 },
+        { id = "m_handyman",   type = "woodbuild", min = 6, max = 6,
+          requiresPerk = "Woodwork", requiresLevel = 1 },
+        { id = "m_rainwater",  type = "woodbuild", buildGroup = "raincollector", min = 1, max = 1, -- text assumes 1
+          requiresPerk = "Woodwork", requiresLevel = 3 },
         { id = "m_forage",     type = "forage", min = 15, max = 25 },
         { id = "m_herbalist",  type = "forage", forageGroup = "medicinal", min = 3, max = 5, months = GROWING_SEASON },
         { id = "m_supplies",   type = "forage", forageGroup = "materials", min = 6, max = 10 },
@@ -289,6 +301,10 @@ VB_Challenges.Templates = {
           requiresPerk = "Carving", requiresLevel = 1 },
         { id = "h_bat",        type = "carvecraft", recipeGroup = "bat", min = 1, max = 1,     -- text assumes 1
           requiresPerk = "Carving", requiresLevel = 7 },
+        { id = "h_woodwalls",  type = "woodbuild", buildGroup = "woodwall", min = 12, max = 12,
+          requiresPerk = "Woodwork", requiresLevel = 2 },
+        { id = "h_stairs",     type = "woodbuild", buildGroup = "stairs", min = 1, max = 1,     -- text assumes 1
+          requiresPerk = "Woodwork", requiresLevel = 3 },
         { id = "h_cook",       type = "cook", min = 3,  max = 4, foodGroup = "fish" },
         { id = "h_read",       type = "read", min = 4,  max = 6 },
         { id = "h_harvest",    type = "harvest", min = 10, max = 15 },
