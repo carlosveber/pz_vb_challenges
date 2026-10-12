@@ -242,8 +242,7 @@ function VB_ChallengesContentPanel:signature()
     for _, d in ipairs(VB_Challenges.DIFFICULTIES) do
         local q = s.active[d]
         if q then
-            local lock = VB_Challenges.hoursUntilAbandon(q)
-            table.insert(parts, d .. q.id .. ":" .. VB_Challenges.getProgress(player, q) .. ":" .. (lock > 0 and math.ceil(lock) or "u"))
+            table.insert(parts, d .. q.id .. ":" .. VB_Challenges.getProgress(player, q))
         else
             table.insert(parts, d .. "-" .. (s.offers[d] and #s.offers[d] or 0))
         end
@@ -347,15 +346,11 @@ function VB_ChallengesContentPanel:buildQuests(player, state)
                     ty = self:wrapped(ix, ty, VB_Challenges.T("Card_DeadlineLeft", fmtHours(left)), iw, left < 24 and RED or GOLD)
                 end
             end
-            local lock = VB_Challenges.hoursUntilAbandon(q)
-            if lock > 0 then
-                ty = self:wrapped(ix, ty, VB_Challenges.T("Card_AbandonIn", fmtHours(lock)), iw, GREY)
-            end
             ty = self:buttonRow(ix, ty + 4, iw, {
                 { VB_Challenges.T(q.type == "deliver" and "Btn_TurnIn" or "Btn_Claim"), function() VB_Challenges.claim(getPlayer(), d) end,
                   ready, ready and nil or VB_Challenges.T("Tip_NotDone"), 100 },
-                { VB_Challenges.T("Btn_Abandon"), function() VB_Challenges.abandon(getPlayer(), d) end, lock <= 0,
-                  lock > 0 and VB_Challenges.T("Tip_Locked", fmtHours(lock)) or VB_Challenges.T("Tip_Abandon"), 100 },
+                { VB_Challenges.T("Btn_Abandon"), function() VB_Challenges.abandon(getPlayer(), d) end, true,
+                  VB_Challenges.T("Tip_Abandon"), 100 },
             })
         else
             ty = self:text(ix, ty, label, color)
@@ -386,8 +381,7 @@ function VB_ChallengesContentPanel:buildOffers(player, state)
     local ix = PAD + CARD_PAD
 
     local y = PAD
-    y = self:wrapped(PAD, y, VB_Challenges.T("Offers_Title", VB_Challenges.difficultyLabel(d)), w, color, FONT_MEDIUM)
-    y = self:wrapped(PAD, y, VB_Challenges.T("Offers_LockNote", math.floor(VB_Challenges.abandonLockHours() / 24 + 0.5)), w, GREY) + GAP
+    y = self:wrapped(PAD, y, VB_Challenges.T("Offers_Title", VB_Challenges.difficultyLabel(d)), w, color, FONT_MEDIUM) + GAP
 
     self.offerMods = self.offerMods or {}
     for i, q in ipairs(offers) do
@@ -610,7 +604,6 @@ function VB_ChallengesContentPanel:buildDebug(player, state)
             y = self:buttonRow(PAD, y, w, {
                 { "Make ready", function() D.makeReady(d) end, true, "Fulfils the objective (deliver challenges spawn the items in your inventory)." },
                 { "Force complete", function() D.forceComplete(d) end, true, "Completes and awards points without checking requirements." },
-                { "Skip abandon lock", function() D.skipLock(d) end, VB_Challenges.hoursUntilAbandon(q) > 0 },
                 { "Expire deadline", function() D.expireDeadline(d) end, q.deadlineAt ~= nil and not q.deadlineMet,
                   "Makes the deadline pass now (fails the challenge unless it's already done)." },
                 { "Teleport to target", function() D.teleportToTarget(d) end, VB_Challenges.Location.isLocationType(q.type),

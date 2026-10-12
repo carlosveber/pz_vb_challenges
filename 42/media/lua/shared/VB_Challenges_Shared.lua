@@ -55,7 +55,6 @@ function VB_Challenges.basePoints(difficulty)
 end
 
 function VB_Challenges.offerCount() return VB_Challenges.opt("OfferCount", 3) end
-function VB_Challenges.abandonLockHours() return VB_Challenges.opt("AbandonLockDays", 2) * 24 end
 function VB_Challenges.freeRerollHours() return VB_Challenges.opt("FreeRerollHours", 24) end
 function VB_Challenges.traitRewardEvery() return VB_Challenges.opt("TraitRewardEvery", 5) end
 function VB_Challenges.modifierBonus() return VB_Challenges.opt("ModifierBonusPercent", 50) / 100 end

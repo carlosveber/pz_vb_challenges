@@ -278,14 +278,10 @@ function VB_Challenges.isReady(player, q)
     return VB_Challenges.getProgress(player, q) >= q.target
 end
 
-function VB_Challenges.hoursUntilAbandon(q)
-    return math.max(0, VB_Challenges.abandonLockHours() - (nowHours() - q.acceptedAt))
-end
-
 function VB_Challenges.abandon(player, difficulty)
     local state = VB_Challenges.getState(player)
     local q = state.active[difficulty]
-    if not q or VB_Challenges.hoursUntilAbandon(q) > 0 then return false end
+    if not q then return false end
     state.active[difficulty] = nil
     state.abandoned = (state.abandoned or 0) + 1
     notify(player, VB_Challenges.T("Notify_Abandoned", VB_Challenges.questTitle(q)), false)
@@ -854,13 +850,6 @@ function VB_Challenges.Debug.teleportToCache(d)
     local q = VB_Challenges.getState().active[d]
     if not q or q.cacheState ~= "hidden" then return end
     getPlayer():teleportTo(q.cacheX + 1.5, q.cacheY + 0.5, q.cacheZ)
-end
-
-function VB_Challenges.Debug.skipLock(d)
-    local q = VB_Challenges.getState().active[d]
-    if not q then return end
-    q.acceptedAt = math.min(q.acceptedAt, nowHours() - VB_Challenges.abandonLockHours())
-    VB_Challenges.changed()
 end
 
 function VB_Challenges.Debug.newOffers(d)

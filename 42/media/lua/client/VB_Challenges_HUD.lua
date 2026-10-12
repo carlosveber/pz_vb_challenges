@@ -268,10 +268,6 @@ function VB_ChallengesHud:refreshTiles()
                     if ready then
                         table.insert(lines, { text = VB_Challenges.T("Hud_Ready"), color = GREEN })
                     else
-                        local lock = VB_Challenges.hoursUntilAbandon(q)
-                        if lock > 0 then
-                            table.insert(lines, { text = VB_Challenges.T("Card_AbandonIn", fmtHours(lock)), color = GREY })
-                        end
                         table.insert(lines, { text = VB_Challenges.T("Hud_HintQuest"), color = GREY })
                     end
                     return lines

@@ -14,14 +14,19 @@ for server owners and modders.
 
 ### Changed
 
-- Challenges can now be abandoned after **2 days** instead of 5 (sandbox option
-  **Days before a challenge can be abandoned**, new default 2).
+- Challenges can be **abandoned at any time**. The waiting period after accepting a
+  challenge (5 days before) is gone.
 - New mod icon and poster.
+
+### Removed
+
+- Sandbox option **Days before a challenge can be abandoned**.
 
 ### Technical
 
-- New sandbox option `FreeRerollHours`; `AbandonLockDays` default changed from 5 to 2.
-  Existing worlds keep the value saved in their sandbox settings.
+- New sandbox option `FreeRerollHours`. Removed `AbandonLockDays` (a value saved in an
+  existing world is simply ignored), `VB_Challenges.hoursUntilAbandon` and the debug
+  "Skip abandon lock" button.
 
 ## [0.8.0] - 2026-10-11
 

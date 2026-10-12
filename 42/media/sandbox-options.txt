@@ -34,16 +34,6 @@ option VB_Challenges.OfferCount
     translation = VB_Challenges_OfferCount,
 }
 
-option VB_Challenges.AbandonLockDays
-{
-    type = integer,
-    min = 0,
-    max = 60,
-    default = 2,
-    page = VB_Challenges,
-    translation = VB_Challenges_AbandonLockDays,
-}
-
 option VB_Challenges.FreeRerollHours
 {
     type = integer,
