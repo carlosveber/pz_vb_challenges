@@ -1,0 +1,161 @@
+VERSION = 1,
+
+/* VB_Challenges mod sandbox options (page "VB_Challenges").
+   Read in Lua as SandboxVars.VB_Challenges.<Name> through VB_Challenges.opt() in VB_Challenges_Shared.lua;
+   the defaults there must match the defaults here. */
+
+option VB_Challenges.PointMultiplier
+{
+    type = double,
+    min = 0.1,
+    max = 10.0,
+    default = 1.0,
+    page = VB_Challenges,
+    translation = VB_Challenges_PointMultiplier,
+}
+
+option VB_Challenges.LevelCurveMultiplier
+{
+    type = double,
+    min = 0.1,
+    max = 10.0,
+    default = 1.0,
+    page = VB_Challenges,
+    translation = VB_Challenges_LevelCurveMultiplier,
+}
+
+option VB_Challenges.OfferCount
+{
+    type = integer,
+    min = 1,
+    max = 6,
+    default = 3,
+    page = VB_Challenges,
+    translation = VB_Challenges_OfferCount,
+}
+
+option VB_Challenges.AbandonLockDays
+{
+    type = integer,
+    min = 0,
+    max = 60,
+    default = 5,
+    page = VB_Challenges,
+    translation = VB_Challenges_AbandonLockDays,
+}
+
+option VB_Challenges.EnableLocationChallenges
+{
+    type = boolean,
+    default = true,
+    page = VB_Challenges,
+    translation = VB_Challenges_EnableLocationChallenges,
+}
+
+option VB_Challenges.LocationDistanceMultiplier
+{
+    type = double,
+    min = 0.25,
+    max = 4.0,
+    default = 1.0,
+    page = VB_Challenges,
+    translation = VB_Challenges_LocationDistanceMultiplier,
+}
+
+option VB_Challenges.EnableLocationCaches
+{
+    type = boolean,
+    default = true,
+    page = VB_Challenges,
+    translation = VB_Challenges_EnableLocationCaches,
+}
+
+option VB_Challenges.EnableAnimalChallenges
+{
+    type = boolean,
+    default = true,
+    page = VB_Challenges,
+    translation = VB_Challenges_EnableAnimalChallenges,
+}
+
+option VB_Challenges.MaxModifiers
+{
+    type = integer,
+    min = 0,
+    max = 3,
+    default = 2,
+    page = VB_Challenges,
+    translation = VB_Challenges_MaxModifiers,
+}
+
+option VB_Challenges.ModifierBonusPercent
+{
+    type = integer,
+    min = 0,
+    max = 300,
+    default = 50,
+    page = VB_Challenges,
+    translation = VB_Challenges_ModifierBonusPercent,
+}
+
+option VB_Challenges.DeadlineMultiplier
+{
+    type = double,
+    min = 0.25,
+    max = 5.0,
+    default = 1.0,
+    page = VB_Challenges,
+    translation = VB_Challenges_DeadlineMultiplier,
+}
+
+option VB_Challenges.EnableItemRewards
+{
+    type = boolean,
+    default = true,
+    page = VB_Challenges,
+    translation = VB_Challenges_EnableItemRewards,
+}
+
+option VB_Challenges.EnableXpRewards
+{
+    type = boolean,
+    default = true,
+    page = VB_Challenges,
+    translation = VB_Challenges_EnableXpRewards,
+}
+
+option VB_Challenges.EnableTokenRewards
+{
+    type = boolean,
+    default = true,
+    page = VB_Challenges,
+    translation = VB_Challenges_EnableTokenRewards,
+}
+
+option VB_Challenges.EnableTraitRewards
+{
+    type = boolean,
+    default = true,
+    page = VB_Challenges,
+    translation = VB_Challenges_EnableTraitRewards,
+}
+
+option VB_Challenges.TraitRewardEvery
+{
+    type = integer,
+    min = 1,
+    max = 50,
+    default = 5,
+    page = VB_Challenges,
+    translation = VB_Challenges_TraitRewardEvery,
+}
+
+option VB_Challenges.XpRewardMultiplier
+{
+    type = double,
+    min = 0.0,
+    max = 10.0,
+    default = 1.0,
+    page = VB_Challenges,
+    translation = VB_Challenges_XpRewardMultiplier,
+}

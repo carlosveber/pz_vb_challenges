@@ -1,0 +1,8 @@
+name=Challenges
+id=VB_Challenges
+description=Challenges and progression: take Easy/Medium/Hard challenges, earn score, level up and pick rewards.
+poster=poster.png
+icon=icon.png
+author=carlo
+modversion=0.7.0
+versionMin=42.0
