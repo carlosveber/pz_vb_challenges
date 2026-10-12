@@ -236,7 +236,9 @@ function VB_ChallengesContentPanel:signature()
     local player = getPlayer()
     local s = player and VB_Challenges.getState(player)
     if not s then return "" end
-    local parts = { s.level, s.levelPoints, #s.pendingRewards, #s.completed, s.rerollTokens, s.bonusTokens or 0 }
+    local freeIn = VB_Challenges.hoursUntilFreeReroll(s)
+    local parts = { s.level, s.levelPoints, #s.pendingRewards, #s.completed, s.rerollTokens, s.bonusTokens or 0,
+        freeIn and math.ceil(freeIn) or "-" }
     for _, d in ipairs(VB_Challenges.DIFFICULTIES) do
         local q = s.active[d]
         if q then
@@ -294,6 +296,10 @@ function VB_ChallengesContentPanel:header(state, y)
     y = self:bar(PAD, y + 2, w, state.levelPoints / need, GOLD)
     y = self:wrapped(PAD, y, VB_Challenges.T("Header_PointsToLevel", state.levelPoints, need, state.level + 1), w, WHITE)
     y = self:wrapped(PAD, y, VB_Challenges.T("Header_Tokens", state.rerollTokens, state.bonusTokens or 0), w, GREY)
+    local freeIn = VB_Challenges.hoursUntilFreeReroll(state)
+    if freeIn then
+        y = self:wrapped(PAD, y, VB_Challenges.T("Header_FreeReroll", fmtHours(freeIn)), w, GREY)
+    end
     if #state.pendingRewards > 0 then
         y = self:wrapped(PAD, y, VB_Challenges.T("Header_RewardsWaiting", #state.pendingRewards), w, GREEN)
     end

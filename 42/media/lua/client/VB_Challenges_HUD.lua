@@ -208,6 +208,10 @@ function VB_ChallengesHud:refreshTiles()
             if s.rerollTokens > 0 or (s.bonusTokens or 0) > 0 then
                 table.insert(lines, { text = VB_Challenges.T("Header_Tokens", s.rerollTokens, s.bonusTokens or 0), color = GREY })
             end
+            local freeIn = VB_Challenges.hoursUntilFreeReroll(s)
+            if freeIn then
+                table.insert(lines, { text = VB_Challenges.T("Header_FreeReroll", fmtHours(freeIn)), color = GREY })
+            end
             table.insert(lines, { text = VB_Challenges.T("Hud_HintLevel"), color = GREY })
             return lines
         end,

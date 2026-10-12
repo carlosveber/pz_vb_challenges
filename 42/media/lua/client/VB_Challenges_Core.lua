@@ -710,6 +710,30 @@ local function checkReadyQuests()
 end
 
 Events.OnPlayerUpdate.Add(onPlayerUpdate)
+-- Free reroll token: after freeRerollHours() in-game hours with no reroll tokens, the
+-- player gets one. The clock (state.noRerollSince, world-age hours) starts when they run out.
+function VB_Challenges.hoursUntilFreeReroll(state)
+    local every = VB_Challenges.freeRerollHours()
+    if every <= 0 or state.rerollTokens > 0 or not state.noRerollSince then return nil end
+    return math.max(0, every - (nowHours() - state.noRerollSince))
+end
+
+local function checkFreeReroll(player, state)
+    local every = VB_Challenges.freeRerollHours()
+    if every <= 0 or state.rerollTokens > 0 then
+        state.noRerollSince = nil
+        return
+    end
+    if not state.noRerollSince then
+        state.noRerollSince = nowHours()
+    elseif nowHours() - state.noRerollSince >= every then
+        state.rerollTokens = 1
+        state.noRerollSince = nil
+        notify(player, VB_Challenges.T("Notify_FreeReroll"))
+        VB_Challenges.changed()
+    end
+end
+
 Events.EveryOneMinute.Add(function()
     local player = getPlayer()
     if not player or player:isDead() then return end
@@ -719,6 +743,7 @@ Events.EveryOneMinute.Add(function()
     VB_Challenges.Activity.tick(player)
     checkDeadlines(player, state)
     checkReadyQuests()
+    checkFreeReroll(player, state)
     -- Settle level-ups owed after the curve or LevelCurveMultiplier changed on an existing save.
     if state.levelPoints >= VB_Challenges.pointsToNext(state) then VB_Challenges.addPoints(player, 0) end
 end)

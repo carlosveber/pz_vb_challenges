@@ -6,9 +6,22 @@ for server owners and modders.
 
 ## [Unreleased]
 
+### Added
+
+- **Free reroll token:** after 24 in-game hours without any reroll tokens, you get one for
+  free. The challenge window and the level tile tooltip show when the next one arrives.
+  Sandbox option **Hours for a free reroll token** (default 24, 0 turns it off).
+
 ### Changed
 
+- Challenges can now be abandoned after **2 days** instead of 5 (sandbox option
+  **Days before a challenge can be abandoned**, new default 2).
 - New mod icon and poster.
+
+### Technical
+
+- New sandbox option `FreeRerollHours`; `AbandonLockDays` default changed from 5 to 2.
+  Existing worlds keep the value saved in their sandbox settings.
 
 ## [0.8.0] - 2026-10-11
 
