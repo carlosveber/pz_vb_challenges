@@ -4,7 +4,7 @@ All notable changes to **Challenges** (Project Zomboid Build 42 mod, id `VB_Chal
 Newest version first. Each version lists what players will notice, then technical notes
 for server owners and modders.
 
-## [Unreleased]
+## [0.8.0] - 2026-10-11
 
 ### Added
 

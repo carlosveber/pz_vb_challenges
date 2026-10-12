@@ -1,6 +1,6 @@
 -- VB_Challenges: shared config + helpers. Loaded first (shared -> client -> server).
 VB_Challenges = VB_Challenges or {}
-VB_Challenges.VERSION = "0.7.0"
+VB_Challenges.VERSION = "0.8.0"
 
 VB_Challenges.DIFFICULTIES = { "easy", "medium", "hard" }
 VB_Challenges.DIFFICULTY_COLOR = {
